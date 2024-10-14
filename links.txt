@@ -5,3 +5,7 @@ https://github.com/JiiHu/hive-web-dev-2024
 https://github.com/andregri/fantacalcio-voti-live-js
 
 https://cotton-teeth-8ee.notion.site/Web-Express-Coding-Challenge-e6cdf9f20a1441cd9ea25e0dbe18e169
+
+https://expressjs.com/en/starter/hello-world.html
+
+https://www.postgresql.org
