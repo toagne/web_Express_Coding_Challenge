@@ -22,6 +22,8 @@ export function PokemonGrid({ pokemonList, currentPage/*, totalPages*/ }: Pokemo
     const [ searchText, setSearchText ] = useState("");
     const [types, setTypes] = useState<any[]>([]); // State for Pokémon types
     const [selectedType, setSelectedType] = useState<string>(""); // State for selected type
+    const [isSorted, setIsSorted] = useState(false); // State to track if sorted
+    const [sortedList, setSortedList] = useState<any[]>(pokemonList); // State to store sorted list  
 
     useEffect(() => {
         const fetchTypes = async () => {
@@ -46,7 +48,16 @@ export function PokemonGrid({ pokemonList, currentPage/*, totalPages*/ }: Pokemo
         })
     }
     
-    const filteredPokemonList = searchFilter(pokemonList)
+    const sortList = () => {
+        const sortedItems = [...pokemonList].sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+        setSortedList(sortedItems); // Update the sorted list in state
+        setIsSorted(true); // Set sorting flag to true
+      };
+    
+      // Filter the original list (or sorted list if sorting is applied)
+      const filteredPokemonList = searchFilter(isSorted ? sortedList : pokemonList);
     console.log("list lenght" + filteredPokemonList.length)
 
     if (filteredPokemonList.length < PER_PAGE) {
@@ -58,6 +69,8 @@ export function PokemonGrid({ pokemonList, currentPage/*, totalPages*/ }: Pokemo
     const startIndex = currentPage * PER_PAGE;
     const paginatedPokemonList = filteredPokemonList.slice(startIndex, startIndex + PER_PAGE);
     const totalPages = Math.ceil(filteredPokemonList.length / PER_PAGE);
+
+
 
     return (
         <>
@@ -90,7 +103,10 @@ export function PokemonGrid({ pokemonList, currentPage/*, totalPages*/ }: Pokemo
                     ))}
                 </select>
             </div>
-            
+            {/* Button to sort the list */}
+            <button onClick={sortList} style={{ marginBottom: '10px' }}>
+                Sort Alphabetically
+            </button>
             <h3 className="text-3xl pt-12 pb-6 text-center">Pokemon Collection</h3>
         </div>
         <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
